@@ -72,8 +72,7 @@
               "browserTarget": "DotNetAngular:build:production"
             },
             "development": {
-              "browserTarget": "DotNetAngular:build:development",
-              "proxyConfig": "proxy.conf.js"
+              "browserTarget": "DotNetAngular:build:development"
             }
           },
           "defaultConfiguration": "development"
