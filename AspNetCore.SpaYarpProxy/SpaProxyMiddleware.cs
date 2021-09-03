@@ -1,9 +1,12 @@
 ﻿// based on https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/Spa/SpaProxy/src/SpaProxyMiddleware.cs
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using System.Text;
 
-namespace DotNetAngular;
+namespace AspNetCore.SpaYarpProxy;
 /// <summary>
 /// Middleware to display a page while the SPA proxy is launching and redirect to the proxy url once the proxy is
 /// ready or we have given up trying to start it.
@@ -12,7 +15,7 @@ namespace DotNetAngular;
 /// 2) Ensure that the server is up and running quickly instead of waiting for the proxy to be ready to start the
 ///    server which causes Visual Studio to think the app failed to launch.
 /// </summary>
-internal class SpaProxyMiddleware
+public class SpaProxyMiddleware
 {
     private static bool _spaClientRunning = false;
 

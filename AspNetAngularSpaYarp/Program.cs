@@ -1,22 +1,23 @@
-using AspNetAngularSpaYarp;
-using Microsoft.Extensions.Options;
-using System.Net;
-using Yarp.ReverseProxy.Forwarder;
+using AspNetCore.SpaYarpProxy;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpForwarder();
-builder.Services.AddSingleton<SpaProxyLaunchManager>();
-builder.Services.AddOptions<SpaDevelopmentServerOptions>()
-    .Configure(options =>
-    {
-        options.ClientUrl = "https://localhost:44478";
-        options.LaunchCommand = "npm start";
-        options.WorkingDirectory = @"C:\git\AspNetAngularSpaYarp\ClientApp";
-        options.MaxTimeoutInSeconds = 120;
-    });
+
+// like with Microsoft.AspNetCore.SpaProxy, a 'spa.proxy.json' file gets generated based on the values in the project file (SpaRoot, SpaProxyClientUrl, SpaProxyLaunchCommand).
+var spaProxyConfigFile = Path.Combine(AppContext.BaseDirectory, "spa.proxy.json");
+var useSpaProxy = File.Exists(spaProxyConfigFile);
+if (useSpaProxy)
+{
+    var configuration = new ConfigurationBuilder()
+        .AddJsonFile(spaProxyConfigFile)
+        .Build();
+
+    builder.Services.AddHttpForwarder();
+    builder.Services.AddSingleton<SpaProxyLaunchManager>();
+    builder.Services.Configure<SpaDevelopmentServerOptions>(configuration.GetSection("SpaProxyServer"));
+}
 
 var app = builder.Build();
 
@@ -31,47 +32,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 
-if (app.Environment.IsDevelopment())
+if (useSpaProxy)
 {
-    app.UseMiddleware<SpaProxyMiddleware>();
-
-    // proxy config
-    var forwarder = app.Services.GetRequiredService<IHttpForwarder>();
-    var spaOptions = app.Services.GetRequiredService<IOptions<SpaDevelopmentServerOptions>>().Value;
-
-    // Configure our own HttpMessageInvoker for outbound calls for proxy operations
-    var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
-    {
-        UseProxy = false,
-        AllowAutoRedirect = false,
-        AutomaticDecompression = DecompressionMethods.None,
-        UseCookies = false
-    });
-
-    // Setup our own request transform class
-    var transformer = HttpTransformer.Default;
-    var requestOptions = new ForwarderRequestConfig { Timeout = TimeSpan.FromSeconds(100) };
-
-    app.UseEndpoints(endpoints =>
-    {
-        // When using IHttpForwarder for direct forwarding you are responsible for routing, destination discovery, load balancing, affinity, etc..
-        // For an alternate example that includes those features see BasicYarpSample.
-        endpoints.Map("/{**catch-all}", async httpContext =>
-        {
-            var error = await forwarder.SendAsync(httpContext, spaOptions.ClientUrl, httpClient, requestOptions, transformer);
-            // Check if the proxy operation was successful
-            if (error != ForwarderError.None)
-            {
-                var errorFeature = httpContext.Features.Get<IForwarderErrorFeature>();
-                var exception = errorFeature?.Exception;
-            }
-        });
-    });
+    app.UseSpaYarpProxy();
 }
 else
 {

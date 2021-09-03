@@ -1,7 +1,7 @@
 ﻿// based on https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/Spa/SpaProxy/src/SpaDevelopmentServerOptions.cs
-namespace DotNetAngular;
+namespace AspNetCore.SpaYarpProxy;
 
-internal class SpaDevelopmentServerOptions
+public class SpaDevelopmentServerOptions
 {
     public string ClientUrl { get; set; } = "";
 

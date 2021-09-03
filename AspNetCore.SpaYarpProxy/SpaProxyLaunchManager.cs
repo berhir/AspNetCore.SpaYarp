@@ -1,12 +1,14 @@
 ﻿// based on https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/Spa/SpaProxy/src/SpaProxyLaunchManager.cs
 
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using System.Net.Http.Headers;
 
-namespace DotNetAngular;
+namespace AspNetCore.SpaYarpProxy;
 
-internal class SpaProxyLaunchManager : IDisposable
+public class SpaProxyLaunchManager : IDisposable
 {
     private readonly SpaDevelopmentServerOptions _options;
     private readonly ILogger<SpaProxyLaunchManager> _logger;
