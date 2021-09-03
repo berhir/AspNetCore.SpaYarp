@@ -1,13 +1,22 @@
+using DotNetAngular;
+using Microsoft.Extensions.Options;
 using System.Net;
 using Yarp.ReverseProxy.Forwarder;
-
-string spaClientUrl = "https://localhost:44478";
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpForwarder();
+builder.Services.AddSingleton<SpaProxyLaunchManager>();
+builder.Services.AddOptions<SpaDevelopmentServerOptions>()
+    .Configure(options =>
+    {
+        options.ClientUrl = "https://localhost:44478";
+        options.LaunchCommand = "npm start";
+        options.WorkingDirectory = @"C:\git\DotNetAngular\ClientApp";
+        options.MaxTimeoutInSeconds = 120;
+    });
 
 var app = builder.Build();
 
@@ -29,7 +38,11 @@ app.MapControllerRoute(
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseMiddleware<SpaProxyMiddleware>();
+
+    // proxy config
     var forwarder = app.Services.GetRequiredService<IHttpForwarder>();
+    var spaOptions = app.Services.GetRequiredService<IOptions<SpaDevelopmentServerOptions>>().Value;
 
     // Configure our own HttpMessageInvoker for outbound calls for proxy operations
     var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
@@ -50,7 +63,7 @@ if (app.Environment.IsDevelopment())
         // For an alternate example that includes those features see BasicYarpSample.
         endpoints.Map("/{**catch-all}", async httpContext =>
         {
-            var error = await forwarder.SendAsync(httpContext, spaClientUrl, httpClient, requestOptions, transformer);
+            var error = await forwarder.SendAsync(httpContext, spaOptions.ClientUrl, httpClient, requestOptions, transformer);
             // Check if the proxy operation was successful
             if (error != ForwarderError.None)
             {
