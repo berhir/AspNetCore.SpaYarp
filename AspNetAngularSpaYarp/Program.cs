@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // like with Microsoft.AspNetCore.SpaProxy, a 'spa.proxy.json' file gets generated based on the values in the project file (SpaRoot, SpaProxyClientUrl, SpaProxyLaunchCommand).
+// this file gets not published when using "dotnet publish".
 var spaProxyConfigFile = Path.Combine(AppContext.BaseDirectory, "spa.proxy.json");
 var useSpaProxy = File.Exists(spaProxyConfigFile);
 if (useSpaProxy)
