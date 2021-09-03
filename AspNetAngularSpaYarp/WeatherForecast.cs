@@ -1,4 +1,4 @@
-namespace DotNetAngular;
+namespace AspNetAngularSpaYarp;
 
 public class WeatherForecast
 {

@@ -1,4 +1,4 @@
-using DotNetAngular;
+using AspNetAngularSpaYarp;
 using Microsoft.Extensions.Options;
 using System.Net;
 using Yarp.ReverseProxy.Forwarder;
@@ -14,7 +14,7 @@ builder.Services.AddOptions<SpaDevelopmentServerOptions>()
     {
         options.ClientUrl = "https://localhost:44478";
         options.LaunchCommand = "npm start";
-        options.WorkingDirectory = @"C:\git\DotNetAngular\ClientApp";
+        options.WorkingDirectory = @"C:\git\AspNetAngularSpaYarp\ClientApp";
         options.MaxTimeoutInSeconds = 120;
     });
 

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "DotNetAngular": {
+    "AspNetAngularSpaYarp": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -69,10 +69,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "DotNetAngular:build:production"
+              "browserTarget": "AspNetAngularSpaYarp:build:production"
             },
             "development": {
-              "browserTarget": "DotNetAngular:build:development"
+              "browserTarget": "AspNetAngularSpaYarp:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -80,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "DotNetAngular:build"
+            "browserTarget": "AspNetAngularSpaYarp:build"
           }
         },
         "test": {
@@ -128,5 +128,5 @@
       }
     }
   },
-  "defaultProject": "DotNetAngular"
+  "defaultProject": "AspNetAngularSpaYarp"
 }

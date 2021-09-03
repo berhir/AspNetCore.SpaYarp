@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace DotNetAngular.Controllers;
+namespace AspNetAngularSpaYarp.Controllers;
 
 [ApiController]
 [Route("[controller]")]
