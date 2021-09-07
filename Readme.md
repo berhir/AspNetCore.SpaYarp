@@ -1,11 +1,38 @@
 # AspNetCore.SpaYarpProxy
-This is a sample that uses a different approach for developing SPAs as part of an ASP.NET Core application. It uses [YARP](https://microsoft.github.io/reverse-proxy/index.html) to forward all requests that can't be handled by the host to the client application.
+This sample is based on the ideas and code of the [ASP.NET Core SPA templates](https://github.com/dotnet/spa-templates).  
+But it uses a slightly different approach. Instead of using the SPA dev server to forward requests to the host/backend, it uses [YARP](https://microsoft.github.io/reverse-proxy/index.html) to forward all requests that can't be handled by the host to the client application.
 
+This project is a proof of concept. Let me know if you find any issues with this approach.
+
+## Running the sample
+
+To run the sample, open the solution in Visual Studio and start the `AspNetAngularSpaYarp` project.
 It reuses an existing SPA dev server if the client app is already running (started manually in a terminal or VS Code) or it starts a new one.
 
-Running the application works fine, but maybe there are scenarios that do not work. If you find something, please create an issue.
+## Debugging
 
-## The new experience for SPA templates
+It's possible to debug the .NET code and the SPA at the same time with different editors. To use Visual Studio Code to debug the SPA, create a `launch.json` file as [described in the docs](https://code.visualstudio.com/docs/nodejs/angular-tutorial#_debugging-angular).
+But instead of the URL of the SPA, the URL of the .NET host must be used.  
+
+This is the `launch.json` used in this sample:
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-msedge",
+      "request": "launch",
+      "name": "Launch Edge against localhost",
+      "url": "https://localhost:7113",
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}
+```
+
+## Background
+
+### The new experience for SPA templates
 As discussed in https://github.com/dotnet/aspnetcore/issues/27887, a new experience for SPA templates in .NET 6 was introduced.
 This new experience is completeley different to how the templates worked before. This is how it works now:
 * Like before, there are additional settings in the project file (SpaRoot, SpaProxyServerUrl, SpaProxyLaunchCommand).
@@ -21,11 +48,9 @@ As mentioned by others in the GitHub issue, this has some drawbacks:
 * The SPA frameworks must provide a dev server that supports proxying.
 * We are limited to the features the dev server offers. New HTTP/3 features that are available as preview in .NET 6 or things like Windows authentication may not work.
 
-## Using YARP
+### Using YARP
 
 This sample uses [YARP](https://microsoft.github.io/reverse-proxy/index.html) to forward all requests that can't be handled by the host to the client application. It reuses a lot of code from the [Microsoft.AspNetCore.SpaProxy](https://github.com/dotnet/aspnetcore/tree/main/src/Middleware/Spa/SpaProxy/src) project that you can find on GitHub.
-
-This project is a proof of concept and can be improved in many ways.
 
 This is what the application startup looks like:
 
