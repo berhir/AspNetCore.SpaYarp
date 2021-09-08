@@ -1,24 +1,12 @@
-using AspNetCore.SpaYarpProxy;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// like with Microsoft.AspNetCore.SpaProxy, a 'spa.proxy.json' file gets generated based on the values in the project file (SpaRoot, SpaProxyClientUrl, SpaProxyLaunchCommand).
-// this file gets not published when using "dotnet publish".
-var spaProxyConfigFile = Path.Combine(AppContext.BaseDirectory, "spa.proxy.json");
-var useSpaProxy = File.Exists(spaProxyConfigFile);
-if (useSpaProxy)
-{
-    var configuration = new ConfigurationBuilder()
-        .AddJsonFile(spaProxyConfigFile)
-        .Build();
-
-    builder.Services.AddHttpForwarder();
-    builder.Services.AddSingleton<SpaProxyLaunchManager>();
-    builder.Services.Configure<SpaDevelopmentServerOptions>(configuration.GetSection("SpaProxyServer"));
-}
+// Like with Microsoft.AspNetCore.SpaProxy, a 'spa.proxy.json' file gets generated based on the values in the project file (SpaRoot, SpaProxyClientUrl, SpaProxyLaunchCommand).
+// This file gets not published when using "dotnet publish".
+// The services get not added and the proxy is not used when the file does not exist.
+builder.Services.AddSpaYarp();
 
 var app = builder.Build();
 
@@ -37,13 +25,10 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 
-if (useSpaProxy)
-{
-    app.UseSpaYarpProxy();
-}
-else
-{
-    app.MapFallbackToFile("index.html"); ;
-}
+// The middlwares get only added if the SpaProxyLaunchManager service is available.
+app.UseSpaYarp();
+
+// If the SPA proxy is used, this will never be reached.
+app.MapFallbackToFile("index.html"); ;
 
 app.Run();

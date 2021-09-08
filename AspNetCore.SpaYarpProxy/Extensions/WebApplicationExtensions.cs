@@ -8,8 +8,21 @@ namespace Microsoft.AspNetCore.Builder;
 
 public static class WebApplicationExtensions
 {
-    public static WebApplication UseSpaYarpProxy(this WebApplication app)
+    /// <summary>
+    /// Adds the middlewares for the SPA proxy to the pipeline.
+    /// The middlwares get only added if the SpaProxyLaunchManager service is available.
+    /// </summary>
+    /// <param name="app">The web application used to configure the HTTP pipeline, and routes.</param>
+    /// <returns>The web application.</returns>
+    public static WebApplication UseSpaYarp(this WebApplication app)
     {
+        var spaProxyLaunchManager = app.Services.GetService<SpaProxyLaunchManager>();
+
+        if (spaProxyLaunchManager == null)
+        {
+            return app;
+        }
+
         app.UseMiddleware<SpaProxyMiddleware>();
 
         // configure the proxy
