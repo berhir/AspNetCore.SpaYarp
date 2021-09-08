@@ -1,4 +1,4 @@
-﻿using AspNetCore.SpaYarpProxy;
+﻿using AspNetCore.SpaYarp;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection;

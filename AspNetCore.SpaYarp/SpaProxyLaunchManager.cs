@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using System.Net.Http.Headers;
 
-namespace AspNetCore.SpaYarpProxy;
+namespace AspNetCore.SpaYarp;
 
 public class SpaProxyLaunchManager : IDisposable
 {

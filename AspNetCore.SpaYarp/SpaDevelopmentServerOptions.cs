@@ -1,5 +1,5 @@
 ﻿// based on https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/Spa/SpaProxy/src/SpaDevelopmentServerOptions.cs
-namespace AspNetCore.SpaYarpProxy;
+namespace AspNetCore.SpaYarp;
 
 public class SpaDevelopmentServerOptions
 {

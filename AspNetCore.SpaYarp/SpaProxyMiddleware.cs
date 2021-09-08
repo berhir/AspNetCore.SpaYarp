@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using System.Text;
 
-namespace AspNetCore.SpaYarpProxy;
+namespace AspNetCore.SpaYarp;
 /// <summary>
 /// Middleware to display a page while the SPA proxy is launching and redirect to the proxy url once the proxy is
 /// ready or we have given up trying to start it.
