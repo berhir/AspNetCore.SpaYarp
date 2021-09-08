@@ -9,8 +9,8 @@
     <ItemGroup>
       <_SpaProxyServerLaunchConfigLines Include="{" />
       <_SpaProxyServerLaunchConfigLines Include="  &quot;SpaProxyServer&quot;: {" />
-      <_SpaProxyServerLaunchConfigLines Include="    &quot;ClientUrl&quot;: &quot;$(SpaProxyClientUrl)&quot;," />
-      <_SpaProxyServerLaunchConfigLines Include="    &quot;LaunchCommand&quot;: &quot;$(SpaProxyLaunchCommand)&quot;," />
+      <_SpaProxyServerLaunchConfigLines Include="    &quot;ClientUrl&quot;: &quot;$(SpaClientUrl)&quot;," />
+      <_SpaProxyServerLaunchConfigLines Include="    &quot;LaunchCommand&quot;: &quot;$(SpaLaunchCommand)&quot;," />
       <_SpaProxyServerLaunchConfigLines Include="    &quot;WorkingDirectory&quot;: &quot;$(_SpaRootFullPath)&quot;," />
       <_SpaProxyServerLaunchConfigLines Include="    &quot;MaxTimeoutInSeconds&quot;: &quot;$(SpaProxyTimeoutInSeconds)&quot;" />
       <_SpaProxyServerLaunchConfigLines Include="  }" />
