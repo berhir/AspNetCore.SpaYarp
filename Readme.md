@@ -1,8 +1,18 @@
-# AspNetCore.SpaYarpProxy
-This sample is based on the ideas and code of the [ASP.NET Core SPA templates](https://github.com/dotnet/spa-templates).  
-But it uses a slightly different approach. Instead of using the SPA dev server to forward requests to the host/backend, it uses [YARP](https://microsoft.github.io/reverse-proxy/index.html) to forward all requests that can't be handled by the host to the client application.
+# AspNetCore.SpaYarp
+With  [ASP.NET Core Preview 4](https://devblogs.microsoft.com/aspnet/asp-net-core-updates-in-net-6-preview-4/#improved-single-page-app-spa-templates), the ASP.NET Core team introduced a [new experience for SPA templates](https://github.com/dotnet/aspnetcore/issues/27887).
+The main benefit of this new experience is that it’s possible to start and stop the backend and client projects independently.
+This is a very welcome change and speeds up the development process. But it also includes another more controversial change.
+The old templates served the client application as part of the ASP.NET Core host and forwarded the requests to the SPA.
+With the new templates, the URL of the SPA is used to run the application, and requests to the backend get forwarded by a built-in proxy of the SPA dev server.
 
-This project is a proof of concept. Let me know if you find any issues with this approach.
+_AspNetCore.SpaYarp_ uses a different approach. Instead of using the SPA dev server to forward requests to the host/backend, it uses [YARP](https://microsoft.github.io/reverse-proxy/index.html) to forward all requests that can't be handled by the host to the client application.
+It works similar to the old templates, but with the advantage of the new templates to start and stop the backend and client projects independently.
+
+The following graphic shows the differences:
+
+![Overview](Overview.drawio.png "Overview")
+
+To get more insights you can read my blog post [An alternative approach to the ASP.NET Core SPA templates using YARP](https://guidnew.com/en/blog/an-alternative-approach-to-the-asp-net-core-spa-templates-using-yarp).
 
 ## Running the sample
 
@@ -30,52 +40,21 @@ This is the `launch.json` used in this sample:
 }
 ```
 
-## Background
 
-### The new experience for SPA templates
-As discussed in https://github.com/dotnet/aspnetcore/issues/27887, a new experience for SPA templates in .NET 6 was introduced.
-This new experience is completeley different to how the templates worked before. This is how it works now:
-* Like before, there are additional settings in the project file (SpaRoot, SpaProxyServerUrl, SpaProxyLaunchCommand).
-* An additional environment variable gets set in the launchSettings.json file (ASPNETCORE_HOSTINGSTARTUPASSEMBLIES).
-* During the build a `spa.proxy.json` file gets generated.
-* When the ASP.NET Core projects gets started and the ASPNETCORE_HOSTINGSTARTUPASSEMBLIES is set to "Microsoft.AspNetCore.SpaProxy", the proxy services and middleware get registred.
-* The middleware checks if the SPA application is already running at the configured URL and starts it if it's not running.
-* When the SPA application is running the user gets __redirected__ to the URL of the client application.
-* Requests to the backend get handled by the SPA dev server and forwarded to the backend.
-
-As mentioned by others in the GitHub issue, this has some drawbacks:
-* It is different from production where the ASP.NET Core app serves the client application and no proxy is used for backend calls.
-* The SPA frameworks must provide a dev server that supports proxying.
-* We are limited to the features the dev server offers. New HTTP/3 features that are available as preview in .NET 6 or things like Windows authentication may not work.
-
-### Using YARP
-
-This sample uses [YARP](https://microsoft.github.io/reverse-proxy/index.html) to forward all requests that can't be handled by the host to the client application. It reuses a lot of code from the [Microsoft.AspNetCore.SpaProxy](https://github.com/dotnet/aspnetcore/tree/main/src/Middleware/Spa/SpaProxy/src) project that you can find on GitHub.
+## Using AspNetCore.SpaYarp
 
 This is what the application startup looks like:
 
-```cs
-using AspNetCore.SpaYarpProxy;
-
+```csharp
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// like with Microsoft.AspNetCore.SpaProxy, a 'spa.proxy.json' file gets generated based on the values in the project file (SpaRoot, SpaProxyClientUrl, SpaProxyLaunchCommand).
-// this file gets not published when using "dotnet publish".
-var spaProxyConfigFile = Path.Combine(AppContext.BaseDirectory, "spa.proxy.json");
-var useSpaProxy = File.Exists(spaProxyConfigFile);
-if (useSpaProxy)
-{
-    var configuration = new ConfigurationBuilder()
-        .AddJsonFile(spaProxyConfigFile)
-        .Build();
-
-    builder.Services.AddHttpForwarder();
-    builder.Services.AddSingleton<SpaProxyLaunchManager>();
-    builder.Services.Configure<SpaDevelopmentServerOptions>(configuration.GetSection("SpaProxyServer"));
-}
+// Like with Microsoft.AspNetCore.SpaProxy, a 'spa.proxy.json' file gets generated based on the values in the project file (SpaRoot, SpaProxyClientUrl, SpaProxyLaunchCommand).
+// This file gets not published when using "dotnet publish".
+// The services get not added and the proxy is not used when the file does not exist.
+builder.Services.AddSpaYarp();
 
 var app = builder.Build();
 
@@ -94,51 +73,11 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 
-if (useSpaProxy)
-{
-    app.UseSpaYarpProxy();
-}
-else
-{
-    app.MapFallbackToFile("index.html"); ;
-}
+// The middlewares get only added if the SpaProxyLaunchManager service is available.
+app.UseSpaYarp();
+
+// If the SPA proxy is used, this will never be reached.
+app.MapFallbackToFile("index.html");
 
 app.Run();
-```
-
-The `UseSpaYarpProxy()` extension registers the `SpaProxyMiddleware` (that checks if the SPA is already running or starts it) and configures YARP to forward all unhandled requests.
-
-```cs
-public static WebApplication UseSpaYarpProxy(this WebApplication app)
-{
-    app.UseMiddleware<SpaProxyMiddleware>();
-
-    // configure the proxy
-    var forwarder = app.Services.GetRequiredService<IHttpForwarder>();
-    var spaOptions = app.Services.GetRequiredService<IOptions<SpaDevelopmentServerOptions>>().Value;
-
-    // Configure our own HttpMessageInvoker for outbound calls for proxy operations
-    var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
-    {
-        UseProxy = false,
-        AllowAutoRedirect = false,
-        AutomaticDecompression = DecompressionMethods.None,
-        UseCookies = false
-    });
-
-    var requestOptions = new ForwarderRequestConfig { Timeout = TimeSpan.FromSeconds(100) };
-
-    app.Map("/{**catch-all}", async httpContext =>
-    {
-        var error = await forwarder.SendAsync(httpContext, spaOptions.ClientUrl, httpClient, requestOptions, HttpTransformer.Default);
-        // Check if the proxy operation was successful
-        if (error != ForwarderError.None)
-        {
-            var errorFeature = httpContext.Features.Get<IForwarderErrorFeature>();
-            var exception = errorFeature?.Exception;
-        }
-    });
-
-    return app;
-}
 ```
