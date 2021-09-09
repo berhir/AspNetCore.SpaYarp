@@ -75,7 +75,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 
-// The middlewares get only added if the SpaProxyLaunchManager service is available.
+// The middlewares get only added if the 'spa.proxy.json' file exists and the SpaYarp services were added.
 app.UseSpaYarp();
 
 // If the SPA proxy is used, this will never be reached.

@@ -11,7 +11,7 @@ public static class WebApplicationExtensions
 {
     /// <summary>
     /// Adds the middlewares for the SPA proxy to the pipeline.
-    /// The middlwares get only added if the SpaProxyLaunchManager service is available.
+    /// The middlewares get only added if the 'spa.proxy.json' file exists and the SpaYarp services were added (there is a check for the SpaProxyLaunchManager).
     /// </summary>
     /// <param name="app">The web application used to configure the HTTP pipeline, and routes.</param>
     /// <returns>The web application.</returns>
