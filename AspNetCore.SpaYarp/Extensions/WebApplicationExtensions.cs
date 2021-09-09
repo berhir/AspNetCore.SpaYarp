@@ -1,4 +1,5 @@
 ﻿using AspNetCore.SpaYarp;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Net;
@@ -38,11 +39,12 @@ public static class WebApplicationExtensions
             UseCookies = false
         });
 
+        var transformer = new CustomTransformer();
         var requestOptions = new ForwarderRequestConfig { Timeout = TimeSpan.FromSeconds(100) };
 
         app.Map("/{**catch-all}", async httpContext =>
         {
-            var error = await forwarder.SendAsync(httpContext, spaOptions.ClientUrl, httpClient, requestOptions, HttpTransformer.Default);
+            var error = await forwarder.SendAsync(httpContext, spaOptions.ClientUrl, httpClient, requestOptions, transformer);
             // Check if the proxy operation was successful
             if (error != ForwarderError.None)
             {
@@ -52,6 +54,33 @@ public static class WebApplicationExtensions
         });
 
         return app;
+    }
+
+    /// <summary>
+    /// Custom request transformation
+    /// </summary>
+    private class CustomTransformer : HttpTransformer
+    {
+        /// <summary>
+        /// A callback that is invoked prior to sending the proxied request. All HttpRequestMessage
+        /// fields are initialized except RequestUri, which will be initialized after the
+        /// callback if no value is provided. The string parameter represents the destination
+        /// URI prefix that should be used when constructing the RequestUri. The headers
+        /// are copied by the base implementation, excluding some protocol headers like HTTP/2
+        /// pseudo headers (":authority").
+        /// </summary>
+        /// <param name="httpContext">The incoming request.</param>
+        /// <param name="proxyRequest">The outgoing proxy request.</param>
+        /// <param name="destinationPrefix">The uri prefix for the selected destination server which can be used to create
+        /// the RequestUri.</param>
+        public override async ValueTask TransformRequestAsync(HttpContext httpContext, HttpRequestMessage proxyRequest, string destinationPrefix)
+        {
+            // Copy all request headers
+            await base.TransformRequestAsync(httpContext, proxyRequest, destinationPrefix);
+
+            // Suppress the original request header, use the one from the destination Uri.
+            proxyRequest.Headers.Host = null;
+        }
     }
 }
 
