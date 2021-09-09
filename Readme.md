@@ -1,4 +1,6 @@
 # AspNetCore.SpaYarp
+[![NuGet](https://img.shields.io/nuget/vpre/AspNetCore.SpaYarp)](https://www.nuget.org/packages/AspNetCore.SpaYarp/)
+
 With  [ASP.NET Core Preview 4](https://devblogs.microsoft.com/aspnet/asp-net-core-updates-in-net-6-preview-4/#improved-single-page-app-spa-templates), the ASP.NET Core team introduced a [new experience for SPA templates](https://github.com/dotnet/aspnetcore/issues/27887).
 The main benefit of this new experience is that it’s possible to start and stop the backend and client projects independently.
 This is a very welcome change and speeds up the development process. But it also includes another more controversial change.
