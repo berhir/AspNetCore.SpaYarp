@@ -1,10 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Helpers for launching the SPA CLI automatically when the application starts in ASP.NET MVC Core.</Description>
+    <Description>An alternative approach to the new ASP.NET Core SPA templates in .NET 6. It uses YARP as proxy to forward requests to the SPA dev server.</Description>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/berhir/AspNetCore.SpaYarp</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/berhir/AspNetCore.SpaYarp</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>Bernd Hirschmann</Authors>
+    <Company>Guid.New GmbH</Company>
+    <Version>1.0.0-beta.1</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
