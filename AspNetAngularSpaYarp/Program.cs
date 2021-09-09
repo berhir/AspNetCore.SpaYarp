@@ -25,10 +25,10 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 
-// The middlwares get only added if the SpaProxyLaunchManager service is available.
+// The middlewares get only added if the SpaProxyLaunchManager service is available.
 app.UseSpaYarp();
 
 // If the SPA proxy is used, this will never be reached.
-app.MapFallbackToFile("index.html"); ;
+app.MapFallbackToFile("index.html");
 
 app.Run();
