@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{D05AF6E1-A5A4-429A-AB68-34669DDE7364}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNet31AngularSpaYarp", "samples\AspNet31AngularSpaYarp\AspNet31AngularSpaYarp.csproj", "{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +31,17 @@ Global
 		{03DE7E3B-0E21-49B5-8471-7E32E0A2D68C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03DE7E3B-0E21-49B5-8471-7E32E0A2D68C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03DE7E3B-0E21-49B5-8471-7E32E0A2D68C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E3826EDD-0370-4A40-A1F9-1B07ABEBDDFD} = {D05AF6E1-A5A4-429A-AB68-34669DDE7364}
+		{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD} = {D05AF6E1-A5A4-429A-AB68-34669DDE7364}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64A1B0D6-615B-45D8-9F1C-593B55C3E840}

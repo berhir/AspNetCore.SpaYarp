@@ -164,7 +164,11 @@ public class SpaProxyLaunchManager : IDisposable
             var space = _options.LaunchCommand.IndexOf(' ');
             var command = _options.LaunchCommand[0..space];
             var arguments = _options.LaunchCommand[++space..];
+#if NETCOREAPP3_1
+            if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows) && !Path.HasExtension(command))
+#else
             if (OperatingSystem.IsWindows() && !Path.HasExtension(command))
+#endif
             {
                 // On windows we transform npm/yarn to npm.cmd/yarn.cmd so that the command
                 // can actually be found when we start the process. This is overridable if
@@ -188,11 +192,19 @@ public class SpaProxyLaunchManager : IDisposable
             _spaProcess = Process.Start(info);
             if (_spaProcess != null && !_spaProcess.HasExited)
             {
+#if NETCOREAPP3_1
+                if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows))
+#else
                 if (OperatingSystem.IsWindows())
+#endif
                 {
                     LaunchStopScriptWindows(_spaProcess.Id);
                 }
+#if NETCOREAPP3_1
+                else if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX))
+#else
                 else if (OperatingSystem.IsMacOS())
+#endif
                 {
                     LaunchStopScriptMacOS(_spaProcess.Id);
                 }
@@ -206,10 +218,15 @@ public class SpaProxyLaunchManager : IDisposable
 
     private void LaunchStopScriptWindows(int spaProcessId)
     {
+#if NETCOREAPP3_1
+        var processId = Process.GetCurrentProcess().Id;
+#else
+        var processId = Environment.ProcessId;
+#endif
         var stopScript = $@"do{{
   try
   {{
-    $processId = Get-Process -PID {Environment.ProcessId} -ErrorAction Stop;
+    $processId = Get-Process -PID {processId} -ErrorAction Stop;
   }}catch
   {{
     $processId = $null;
@@ -246,6 +263,11 @@ catch
 
     private void LaunchStopScriptMacOS(int spaProcessId)
     {
+#if NETCOREAPP3_1
+        var processId = Process.GetCurrentProcess().Id;
+#else
+        var processId = Environment.ProcessId;
+#endif
         var fileName = Guid.NewGuid().ToString("N") + ".sh";
         var scriptPath = Path.Combine(AppContext.BaseDirectory, fileName);
         var stopScript = @$"function list_child_processes(){{
@@ -264,11 +286,11 @@ catch
       return 0;
     fi;
 }}
-ps {Environment.ProcessId};
+ps {processId};
 while [ $? -eq 0 ];
 do
   sleep 1;
-  ps {Environment.ProcessId} > /dev/null;
+  ps {processId} > /dev/null;
 done;
 for child in $(list_child_processes {spaProcessId});
 do
