@@ -1,5 +1,6 @@
 # AspNetCore.SpaYarp
-[![NuGet](https://img.shields.io/nuget/vpre/AspNetCore.SpaYarp)](https://www.nuget.org/packages/AspNetCore.SpaYarp/)
+[![NuGet](https://img.shields.io/nuget/vpre/AspNetCore.SpaYarp)](https://www.nuget.org/packages/AspNetCore.SpaYarp/)  
+_Supported ASP.NET Core versions: 3.1, 5.0, and 6.0_
 
 With  [ASP.NET Core Preview 4](https://devblogs.microsoft.com/aspnet/asp-net-core-updates-in-net-6-preview-4/#improved-single-page-app-spa-templates), the ASP.NET Core team introduced a [new experience for SPA templates](https://github.com/dotnet/aspnetcore/issues/27887).
 The main benefit of this new experience is that it’s possible to start and stop the backend and client projects independently.
@@ -26,7 +27,7 @@ It reuses an existing SPA dev server if the client app is already running (start
 It's possible to debug the .NET code and the SPA at the same time with different editors. To use Visual Studio Code to debug the SPA, create a `launch.json` file as [described in the docs](https://code.visualstudio.com/docs/nodejs/angular-tutorial#_debugging-angular).
 But instead of the URL of the SPA, the URL of the .NET host must be used.  
 
-This is the `launch.json` used in this sample:
+This is the `launch.json` file used in the ASP.NET Core 6 sample:
 ```json
 {
   "version": "0.2.0",
@@ -45,7 +46,9 @@ This is the `launch.json` used in this sample:
 
 ## Using AspNetCore.SpaYarp
 
-This is what the application startup looks like:
+### ASP.NET Core 6.0 (with WebApplication builder)
+
+Use `AddSpaYarp()` to register the services and `UseSpaYarp()` to add the middlware and configure the route endpoint.
 
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
@@ -82,4 +85,67 @@ app.UseSpaYarp();
 app.MapFallbackToFile("index.html");
 
 app.Run();
+```
+
+### ASP.NET Core 3.1, 5.0, and 6.0 (with Startup.cs)
+
+Use `AddSpaYarp()` to register the services, `UseSpaYarpMiddleware()` to add the middlware, and `MapSpaYarp()` to configure the route endpoint.
+
+```csharp
+public class Startup
+{
+    public Startup(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllersWithViews();
+
+        // Like with Microsoft.AspNetCore.SpaProxy, a 'spa.proxy.json' file gets generated based on the values in the project file (SpaRoot, SpaProxyClientUrl, SpaProxyLaunchCommand).
+        // This file gets not published when using "dotnet publish".
+        // The services get not added and the proxy is not used when the file does not exist.
+        services.AddSpaYarp();
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseExceptionHandler("/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        // The middleware gets only added if the 'spa.proxy.json' file exists and the SpaYarp services were added.
+        app.UseSpaYarpMiddleware();
+
+        app.UseRouting();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller}/{action=Index}/{id?}");
+
+            // The route endpoint gets only added if the 'spa.proxy.json' file exists and the SpaYarp services were added.
+            endpoints.MapSpaYarp();
+
+            // If the SPA proxy is used, this will never be reached.
+            endpoints.MapFallbackToFile("index.html");
+        });
+    }
+}
 ```
