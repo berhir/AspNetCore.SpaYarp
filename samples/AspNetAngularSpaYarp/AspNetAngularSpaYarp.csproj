@@ -17,9 +17,16 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
+  <!--<ItemGroup>
+    <PackageReference Include="AspNetCore.SpaYarp" Version="1.0.0-beta.3" />
+  </ItemGroup>-->
+
   <ItemGroup>
-    <PackageReference Include="AspNetCore.SpaYarp" Version="1.0.0-beta.2" />
+    <ProjectReference Include="..\..\src\AspNetCore.SpaYarp\AspNetCore.SpaYarp.csproj" />
   </ItemGroup>
+
+  <!-- Import target file manually. This is not needed if 'AspNetCore.SpaYarp' gets added via NuGet. -->
+  <Import Project="..\..\src\AspNetCore.SpaYarp\build\AspNetCore.SpaYarp.targets" />
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

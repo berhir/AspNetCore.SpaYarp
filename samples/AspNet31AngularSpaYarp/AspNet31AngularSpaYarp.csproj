@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -8,10 +8,6 @@
     <SpaRoot>ClientApp\</SpaRoot>
     <SpaClientUrl>https://localhost:44479</SpaClientUrl>
     <SpaLaunchCommand>npm start</SpaLaunchCommand>
-    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-
-    <!-- Set this to true if you enable server-side prerendering -->
-    <BuildServerSideRenderer>false</BuildServerSideRenderer>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +16,10 @@
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
+
+  <!--<ItemGroup>
+    <PackageReference Include="AspNetCore.SpaYarp" Version="1.0.0-beta.3" />
+  </ItemGroup>-->
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\AspNetCore.SpaYarp\AspNetCore.SpaYarp.csproj" />
