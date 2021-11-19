@@ -12,7 +12,8 @@
       <_SpaProxyServerLaunchConfigLines Include="    &quot;ClientUrl&quot;: &quot;$(SpaClientUrl)&quot;," />
       <_SpaProxyServerLaunchConfigLines Include="    &quot;LaunchCommand&quot;: &quot;$(SpaLaunchCommand)&quot;," />
       <_SpaProxyServerLaunchConfigLines Include="    &quot;WorkingDirectory&quot;: &quot;$(_SpaRootFullPath)&quot;," />
-      <_SpaProxyServerLaunchConfigLines Include="    &quot;MaxTimeoutInSeconds&quot;: &quot;$(SpaProxyTimeoutInSeconds)&quot;" />
+      <_SpaProxyServerLaunchConfigLines Include="    &quot;MaxTimeoutInSeconds&quot;: &quot;$(SpaProxyTimeoutInSeconds)&quot;," />
+      <_SpaProxyServerLaunchConfigLines Include="    &quot;PublicPath&quot;: &quot;$(SpaPublicPath)&quot;" />
       <_SpaProxyServerLaunchConfigLines Include="  }" />
       <_SpaProxyServerLaunchConfigLines Include="}" />
     </ItemGroup>

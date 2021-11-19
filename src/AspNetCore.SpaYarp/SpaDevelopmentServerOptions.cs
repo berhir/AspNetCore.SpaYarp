@@ -12,4 +12,6 @@ public class SpaDevelopmentServerOptions
     public TimeSpan MaxTimeout => TimeSpan.FromSeconds(MaxTimeoutInSeconds);
 
     public string WorkingDirectory { get; set; } = "";
+
+    public string PublicPath { get; set; } = "";
 }
