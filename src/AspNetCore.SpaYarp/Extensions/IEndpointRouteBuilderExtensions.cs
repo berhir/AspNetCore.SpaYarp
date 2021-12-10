@@ -40,7 +40,7 @@ public static class IEndpointRouteBuilderExtensions
         var transformer = new CustomTransformer();
         var requestOptions = new ForwarderRequestConfig { ActivityTimeout = TimeSpan.FromSeconds(100) };
 
-        endpoints.Map(String.Format("{0}/{{**catch-all}}", spaOptions.PublicPath), async httpContext =>
+        endpoints.Map(string.Format("{0}/{{**catch-all}}", spaOptions.PublicPath), async httpContext =>
         {
             var error = await forwarder.SendAsync(httpContext, spaOptions.ClientUrl, httpClient, requestOptions, transformer);
             // Check if the proxy operation was successful
