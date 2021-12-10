@@ -46,6 +46,19 @@ This is the `launch.json` file used in the ASP.NET Core 6 sample:
 
 ## Using AspNetCore.SpaYarp
 
+### Configure settings in project file
+
+```xml
+<PropertyGroup>
+    <!-- SpaYarp configuration -->
+    <SpaRoot>ClientApp\</SpaRoot>
+    <SpaClientUrl>https://localhost:44478</SpaClientUrl>
+    <SpaLaunchCommand>npm start</SpaLaunchCommand>
+    <!-- Optionally forward only request starting with the specified path 
+    <SpaPublicPath>/dist</SpaPublicPath> -->
+</PropertyGroup>
+```
+
 ### ASP.NET Core 6.0 (with WebApplication builder)
 
 Use `AddSpaYarp()` to register the services and `UseSpaYarp()` to add the middlware and configure the route endpoint.
