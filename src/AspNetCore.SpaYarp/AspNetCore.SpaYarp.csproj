@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="build\AspNetCore.SpaYarp.targets" Pack="true" PackagePath="build\AspNetCore.SpaYarp.targets" />
+    <None Include="build\**" Pack="true" PackagePath="build\" />
   </ItemGroup>
 
 </Project>
