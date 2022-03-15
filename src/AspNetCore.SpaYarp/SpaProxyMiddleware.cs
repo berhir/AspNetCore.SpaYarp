@@ -71,6 +71,14 @@ public class SpaProxyMiddleware
   <title>SPA client launch page</title>
 </head>
 <body>
+  <style>
+    @media (prefers-color-scheme: dark) {{
+      :root {{
+        background: black;
+        color: gray;
+      }}
+    }}
+  </style>
   <h1>Launching the SPA client...</h1>
   <p>This page will automatically refresh when the SPA client is ready.</p>
 </body>
