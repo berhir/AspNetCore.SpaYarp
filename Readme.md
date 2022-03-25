@@ -162,3 +162,31 @@ public class Startup
     }
 }
 ```
+
+## Migrate from SpaProxy
+
+This guide assumes that you are using the default ASP.NET Core with Angular Template (but should work the same for other frameworks too).  
+Thanks to @mdowais for this guide.
+
+__Step 1: Add the Nuget Package__  
+https://www.nuget.org/packages/AspNetCore.SpaYarp
+
+__Step 2: Remove Old SpaProxy Package__  
+Remove the Package Microsoft.AspNetCore.SpaProxy. As it is not needed for this implementation.
+
+Note: The default template adds a Environment Variable `ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"`, in the `launchSettings.json` (Debug Properties in Visual Studio). Which has to be removed, so that you don't see an annoying Exception thrown that "Microsoft.AspNetCore.SpaProxy" is 404.
+
+__Step 3: Change Project Properties__  
+In your Project Settings (csproj) -> PropertyGroup, change the following
+
+`SpaProxyServerUrl` to `SpaClientUrl`  
+`SpaProxyLaunchCommand` to `SpaLaunchCommand`
+
+__Step 4: Add the Services and Usings in your Program.cs__  
+```cs
+// First
+builder.Services.AddSpaYarp()
+
+//Second
+app.UseSpaYarp();
+```
