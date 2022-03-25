@@ -9,13 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.SpaYarp", "src\A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BE6CB10D-9F74-4BE6-8C8F-8BDCC8BA2C65}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		global.json = global.json
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{D05AF6E1-A5A4-429A-AB68-34669DDE7364}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNet31AngularSpaYarp", "samples\AspNet31AngularSpaYarp\AspNet31AngularSpaYarp.csproj", "{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNet31AngularSpaYarp", "samples\AspNet31AngularSpaYarp\AspNet31AngularSpaYarp.csproj", "{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

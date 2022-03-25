@@ -12,7 +12,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Bernd Hirschmann</Authors>
     <Company>Guid.New GmbH</Company>
-    <Version>1.0.0-beta.3</Version>
+    <Version>1.0.0</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="build\AspNetCore.SpaYarp.targets" Pack="true" PackagePath="build\AspNetCore.SpaYarp.targets" />
+    <None Include="build\**" Pack="true" PackagePath="build\" />
   </ItemGroup>
 
 </Project>
