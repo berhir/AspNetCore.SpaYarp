@@ -176,13 +176,17 @@ Remove the Package Microsoft.AspNetCore.SpaProxy. As it is not needed for this i
 
 Note: The default template adds a Environment Variable `ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"`, in the `launchSettings.json` (Debug Properties in Visual Studio). Which has to be removed, so that you don't see an annoying Exception thrown that "Microsoft.AspNetCore.SpaProxy" is 404.
 
-__Step 3: Change Project Properties__  
+__Step 3: Remove proxy.conf.js__  
+Remove the `proxy.conf.js` file that contains the proxy config for the client dev server.  
+And remove the reference to this file from the `angular.json` file too.
+
+__Step 4: Change Project Properties__  
 In your Project Settings (csproj) -> PropertyGroup, change the following
 
 `SpaProxyServerUrl` to `SpaClientUrl`  
 `SpaProxyLaunchCommand` to `SpaLaunchCommand`
 
-__Step 4: Add the Services and Usings in your Program.cs__  
+__Step 5: Add the Services and Usings in your Program.cs__  
 ```cs
 // First
 builder.Services.AddSpaYarp()
