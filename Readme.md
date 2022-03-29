@@ -54,6 +54,8 @@ This is the `launch.json` file used in the ASP.NET Core 6 sample:
     <SpaRoot>ClientApp\</SpaRoot>
     <SpaClientUrl>https://localhost:44478</SpaClientUrl>
     <SpaLaunchCommand>npm start</SpaLaunchCommand>
+    <!-- Change the timeout of the proxy (defaults to 120 seconds) 
+    <SpaProxyTimeoutInSeconds>120</SpaProxyTimeoutInSeconds> -->
     <!-- Optionally forward only request starting with the specified path 
     <SpaPublicPath>/dist</SpaPublicPath> -->
 </PropertyGroup>
