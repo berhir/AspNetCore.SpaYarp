@@ -73,7 +73,13 @@ public class SpaProxyLaunchManager : IDisposable
         using var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, cancellationToken);
         try
         {
-            var response = await httpClient.GetAsync(_options.ClientUrl, cancellationTokenSource.Token);
+            var url = _options.ClientUrl;
+            if (!string.IsNullOrEmpty(_options.PublicPath))
+            {
+                var uri = new Uri(new Uri(url), _options.PublicPath);
+                url = uri.ToString();
+            }
+            var response = await httpClient.GetAsync(url, cancellationTokenSource.Token);
             var running = response.IsSuccessStatusCode;
             return running;
         }
