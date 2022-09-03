@@ -96,6 +96,7 @@ public class SpaProxyLaunchManager : IDisposable
     {
         var httpClient = new HttpClient(new HttpClientHandler()
         {
+            UseProxy = false,
             // It's ok for us to do this here since this service is only plugged in during development.
             ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
         });
