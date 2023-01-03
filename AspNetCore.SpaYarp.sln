@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31612.314
@@ -17,6 +17,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{D05AF6E1-A5A4-429A-AB68-34669DDE7364}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net6Startup", "samples\Net6Startup\Net6Startup.csproj", "{6E174FC6-F6E0-407A-9F75-1D6B84BB946D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetMultipleSpasYarp", "samples\AspNetMultipleSpaYarp\AspNetMultipleSpasYarp.csproj", "{FFE0C2AC-6DEF-4CB4-B987-60B6C1C38912}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
