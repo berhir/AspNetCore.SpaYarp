@@ -20,7 +20,7 @@ public static class IEndpointRouteBuilderExtensions
     public static IEndpointRouteBuilder MapSpaYarp(this IEndpointRouteBuilder endpoints)
     {
         var spaOptions = endpoints.ServiceProvider.GetRequiredService<IOptions<SpaDevelopmentServerOptions>>().Value;
-        return MapSpaYarp(endpoints, spaOptions.PublicPath, spaOptions.ClientUrl, null);
+        return MapSpaYarp(endpoints, spaOptions.PublicPath, spaOptions.ClientUrl);
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public static class IEndpointRouteBuilderExtensions
     /// <param name="policyName">The auth policy name to add to the mapping</param>
     /// <returns>The <see cref="IEndpointRouteBuilder"/>.</returns>
     public static IEndpointRouteBuilder MapSpaYarp(this IEndpointRouteBuilder endpoints, string publicPath,
-        string clientUrl, string? policyName)
+        string clientUrl, string? policyName = null)
     {
         var spaProxyLaunchManager = endpoints.ServiceProvider.GetService<SpaProxyLaunchManager>();
 

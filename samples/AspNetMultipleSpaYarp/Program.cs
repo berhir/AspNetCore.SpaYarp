@@ -27,8 +27,8 @@ app.MapControllerRoute(
 
 // The middleware and route endpoint get only added if the 'spa.proxy.json' file exists and the SpaYarp services were added.
 app.UseSpaYarpMiddleware();
-app.MapSpaYarp("one", "https://localhost:44478", null);
-app.MapSpaYarp("two", "https://localhost:44479", null);
+app.MapSpaYarp("one", "https://localhost:44478");
+app.MapSpaYarp("two", "https://localhost:44479");
 
 
 // If the SPA proxy is used, this will never be reached.
