@@ -1,6 +1,5 @@
 ﻿namespace Microsoft.AspNetCore.Builder;
 
-#if NET6_0
 public static class WebApplicationExtensions
 {
     /// <summary>
@@ -17,4 +16,3 @@ public static class WebApplicationExtensions
         return app;
     }
 }
-#endif

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetAngularSpaYarp", "samples\AspNetAngularSpaYarp\AspNetAngularSpaYarp.csproj", "{E3826EDD-0370-4A40-A1F9-1B07ABEBDDFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net7WebApplicationBuilder", "samples\Net7WebApplicationBuilder\Net7WebApplicationBuilder.csproj", "{E3826EDD-0370-4A40-A1F9-1B07ABEBDDFD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.SpaYarp", "src\AspNetCore.SpaYarp\AspNetCore.SpaYarp.csproj", "{03DE7E3B-0E21-49B5-8471-7E32E0A2D68C}"
 EndProject
@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{D05AF6E1-A5A4-429A-AB68-34669DDE7364}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNet31AngularSpaYarp", "samples\AspNet31AngularSpaYarp\AspNet31AngularSpaYarp.csproj", "{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net6Startup", "samples\Net6Startup\Net6Startup.csproj", "{6E174FC6-F6E0-407A-9F75-1D6B84BB946D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,17 +32,17 @@ Global
 		{03DE7E3B-0E21-49B5-8471-7E32E0A2D68C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03DE7E3B-0E21-49B5-8471-7E32E0A2D68C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03DE7E3B-0E21-49B5-8471-7E32E0A2D68C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E174FC6-F6E0-407A-9F75-1D6B84BB946D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E174FC6-F6E0-407A-9F75-1D6B84BB946D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E174FC6-F6E0-407A-9F75-1D6B84BB946D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E174FC6-F6E0-407A-9F75-1D6B84BB946D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E3826EDD-0370-4A40-A1F9-1B07ABEBDDFD} = {D05AF6E1-A5A4-429A-AB68-34669DDE7364}
-		{8F2F2946-45D8-4943-ACDD-5264D3EBB4BD} = {D05AF6E1-A5A4-429A-AB68-34669DDE7364}
+		{6E174FC6-F6E0-407A-9F75-1D6B84BB946D} = {D05AF6E1-A5A4-429A-AB68-34669DDE7364}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64A1B0D6-615B-45D8-9F1C-593B55C3E840}
