@@ -1,6 +1,11 @@
 # AspNetCore.SpaYarp
 [![NuGet](https://img.shields.io/nuget/vpre/AspNetCore.SpaYarp)](https://www.nuget.org/packages/AspNetCore.SpaYarp/)  
-_Supported ASP.NET Core versions: 3.1, 5.0, and 6.0_
+_Supported ASP.NET Core versions:_
+
+| AspNetCore.SpaYarp version | .NET Version     |
+|----------------------------|------------------|
+| 1.1.0                      | 3.1, 5.0 and 6.0 |
+| 2.0.0                     | 6.0 and 7.0      |
 
 With  [ASP.NET Core Preview 4](https://devblogs.microsoft.com/aspnet/asp-net-core-updates-in-net-6-preview-4/#improved-single-page-app-spa-templates), the ASP.NET Core team introduced a [new experience for SPA templates](https://github.com/dotnet/aspnetcore/issues/27887).
 The main benefit of this new experience is that it’s possible to start and stop the backend and client projects independently.
@@ -19,7 +24,7 @@ To get more insights you can read my blog post [An alternative approach to the A
 
 ## Running the sample
 
-To run the sample, open the solution in Visual Studio and start the `AspNetAngularSpaYarp` project.
+To run the sample, open the solution in Visual Studio and start the `Net6Startup` or `Net7WebApplicationBuilder` project.
 It reuses an existing SPA dev server if the client app is already running (started manually in a terminal or VS Code) or it starts a new one.
 
 ## Debugging
@@ -27,7 +32,7 @@ It reuses an existing SPA dev server if the client app is already running (start
 It's possible to debug the .NET code and the SPA at the same time with different editors. To use Visual Studio Code to debug the SPA, create a `launch.json` file as [described in the docs](https://code.visualstudio.com/docs/nodejs/angular-tutorial#_debugging-angular).
 But instead of the URL of the SPA, the URL of the .NET host must be used.  
 
-This is the `launch.json` file used in the ASP.NET Core 6 sample:
+This is the `launch.json` file used in the sample projects:
 ```json
 {
   "version": "0.2.0",
@@ -61,7 +66,7 @@ This is the `launch.json` file used in the ASP.NET Core 6 sample:
 </PropertyGroup>
 ```
 
-### ASP.NET Core 6.0 (with WebApplication builder)
+### Setup with WebApplication builder
 
 Use `AddSpaYarp()` to register the services and `UseSpaYarp()` to add the middlware and configure the route endpoint.
 
@@ -102,7 +107,7 @@ app.MapFallbackToFile("index.html");
 app.Run();
 ```
 
-### ASP.NET Core 3.1, 5.0, and 6.0 (with Startup.cs)
+### Setup with Startup.cs
 
 Use `AddSpaYarp()` to register the services, `UseSpaYarpMiddleware()` to add the middlware, and `MapSpaYarp()` to configure the route endpoint.
 
