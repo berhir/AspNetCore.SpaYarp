@@ -8,7 +8,7 @@ _Supported ASP.NET Core versions:_
 | 2.0.0                     | 6.0 and 7.0      |
 
 With  [ASP.NET Core Preview 4](https://devblogs.microsoft.com/aspnet/asp-net-core-updates-in-net-6-preview-4/#improved-single-page-app-spa-templates), the ASP.NET Core team introduced a [new experience for SPA templates](https://github.com/dotnet/aspnetcore/issues/27887).
-The main benefit of this new experience is that it’s possible to start and stop the backend and client projects independently.
+The main benefit of this new experience is that it's possible to start and stop the backend and client projects independently.
 This is a very welcome change and speeds up the development process. But it also includes another more controversial change.
 The old templates served the client application as part of the ASP.NET Core host and forwarded the requests to the SPA.
 With the new templates, the URL of the SPA is used to run the application, and requests to the backend get forwarded by a built-in proxy of the SPA dev server.
@@ -18,7 +18,7 @@ It works similar to the old templates, but with the advantage of the new templat
 
 The following graphic shows the differences:
 
-![Overview](Overview.drawio.png "Overview")
+![Overview](https://github.com/berhir/AspNetCore.SpaYarp/raw/master/Overview.drawio.png "Overview")
 
 To get more insights you can read my blog post [An alternative approach to the ASP.NET Core SPA templates using YARP](https://guidnew.com/en/blog/an-alternative-approach-to-the-asp-net-core-spa-templates-using-yarp).
 
