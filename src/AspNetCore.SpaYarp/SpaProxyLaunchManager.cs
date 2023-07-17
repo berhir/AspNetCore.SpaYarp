@@ -67,6 +67,12 @@ public class SpaProxyLaunchManager : IDisposable
 
     public async Task<bool> IsSpaClientRunning(CancellationToken cancellationToken)
     {
+        // Assume running if url or launch command empty
+        if (string.IsNullOrEmpty(_options.ClientUrl) || string.IsNullOrEmpty(_options.LaunchCommand))
+        {
+            return true;
+        }
+
         var httpClient = CreateHttpClient();
 
         using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
