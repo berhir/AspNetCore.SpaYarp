@@ -46,9 +46,6 @@ public class Startup
                 name: "default",
                 pattern: "{controller}/{action=Index}/{id?}");
 
-            // The route endpoint gets only added if the 'spa.proxy.json' file exists and the SpaYarp services were added.
-            endpoints.MapSpaYarp();
-
             // If the SPA proxy is used, this will never be reached.
             endpoints.MapFallbackToFile("index.html");
         });

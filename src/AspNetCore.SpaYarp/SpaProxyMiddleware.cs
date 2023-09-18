@@ -4,7 +4,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
+using System.Net;
 using System.Text;
+using Yarp.ReverseProxy.Forwarder;
 
 namespace AspNetCore.SpaYarp;
 /// <summary>
@@ -15,27 +17,39 @@ namespace AspNetCore.SpaYarp;
 /// 2) Ensure that the server is up and running quickly instead of waiting for the proxy to be ready to start the
 ///    server which causes Visual Studio to think the app failed to launch.
 /// </summary>
-public class SpaProxyMiddleware
+public class SpaProxyMiddleware<TOptions>
+    where TOptions : SpaDevelopmentServerOptions
 {
     private static bool _spaClientRunning = false;
 
-    private readonly RequestDelegate _next;
-    private readonly SpaProxyLaunchManager _spaProxyLaunchManager;
-    private readonly IOptions<SpaDevelopmentServerOptions> _options;
+    private static CustomTransformer _transformer = new CustomTransformer();
+    private static ForwarderRequestConfig _requestOptions = new ForwarderRequestConfig { ActivityTimeout = TimeSpan.FromSeconds(100) };
+    private static HttpMessageInvoker _httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
+    {
+        UseProxy = false,
+        AllowAutoRedirect = false,
+        AutomaticDecompression = DecompressionMethods.None,
+        UseCookies = false
+    });
+
+    private readonly IHttpForwarder _forwarder;
+
+    private readonly SpaProxyLaunchManager<TOptions> _spaProxyLaunchManager;
+    private readonly IOptions<TOptions> _options;
     private readonly IHostApplicationLifetime _hostLifetime;
-    private readonly ILogger<SpaProxyMiddleware> _logger;
+    private readonly ILogger<SpaProxyMiddleware<TOptions>> _logger;
 
     public SpaProxyMiddleware(
-        RequestDelegate next,
-        SpaProxyLaunchManager spaProxyLaunchManager,
-        IOptions<SpaDevelopmentServerOptions> options,
+        SpaProxyLaunchManager<TOptions> spaProxyLaunchManager,
+        IOptions<TOptions> options,
         IHostApplicationLifetime hostLifetime,
-        ILogger<SpaProxyMiddleware> logger)
+        IHttpForwarder forwarder,
+        ILogger<SpaProxyMiddleware<TOptions>> logger)
     {
-        _next = next ?? throw new ArgumentNullException(nameof(next));
         _spaProxyLaunchManager = spaProxyLaunchManager ?? throw new ArgumentNullException(nameof(spaProxyLaunchManager));
         _options = options ?? throw new ArgumentNullException(nameof(options));
         _hostLifetime = hostLifetime ?? throw new ArgumentNullException(nameof(hostLifetime));
+        _forwarder = forwarder ?? throw new ArgumentNullException(nameof(hostLifetime));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -55,7 +69,8 @@ public class SpaProxyMiddleware
         {
             _logger.LogInformation($"SPA client is ready.");
             _spaClientRunning = true;
-            await _next(context);
+
+            await _forwarder.SendAsync(context, _options.Value.ClientUrl, _httpClient, _requestOptions, _transformer);
         }
 
         string GenerateSpaLaunchPage(SpaDevelopmentServerOptions options)

@@ -1,7 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 // Like with Microsoft.AspNetCore.SpaProxy, a 'spa.proxy.json' file gets generated based on the values in the project file (SpaRoot, SpaClientUrl, SpaLaunchCommand).
 // This file gets not published when using "dotnet publish".
@@ -21,15 +21,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
+app.MapRazorPages();
 
-// The middleware and route endpoint get only added if the 'spa.proxy.json' file exists and the SpaYarp services were added.
-app.UseSpaYarpMiddleware();
-app.MapSpaYarp("one", "https://localhost:44478");
-app.MapSpaYarp("two", "https://localhost:44479");
-
+//Route endpoints get only added if the 'spa.proxy.json' file exists and the SpaYarp services were added.
+app.MapSpaYarpForwarder("one", "https://localhost:44478");
+app.MapSpaYarpForwarder("two", "https://localhost:44479");
 
 // If the SPA proxy is used, this will never be reached.
 app.MapFallbackToFile("index.html");

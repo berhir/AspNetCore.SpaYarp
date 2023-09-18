@@ -8,10 +8,10 @@ using System.Net.Http.Headers;
 
 namespace AspNetCore.SpaYarp;
 
-public class SpaProxyLaunchManager : IDisposable
+public class SpaProxyLaunchManager<T> : IDisposable where T : SpaDevelopmentServerOptions
 {
-    private readonly SpaDevelopmentServerOptions _options;
-    private readonly ILogger<SpaProxyLaunchManager> _logger;
+    private readonly T _options;
+    private readonly ILogger<SpaProxyLaunchManager<T>> _logger;
     private readonly object _lock = new object();
 
     private Process? _spaProcess;
@@ -19,9 +19,9 @@ public class SpaProxyLaunchManager : IDisposable
     private Task? _launchTask;
 
     public SpaProxyLaunchManager(
-        ILogger<SpaProxyLaunchManager> logger,
+        ILogger<SpaProxyLaunchManager<T>> logger,
         IHostApplicationLifetime appLifetime,
-        IOptions<SpaDevelopmentServerOptions> options)
+        IOptions<T> options)
     {
         _options = options.Value;
         _logger = logger;
@@ -67,12 +67,6 @@ public class SpaProxyLaunchManager : IDisposable
 
     public async Task<bool> IsSpaClientRunning(CancellationToken cancellationToken)
     {
-        // Assume running if url or launch command empty
-        if (string.IsNullOrEmpty(_options.ClientUrl) || string.IsNullOrEmpty(_options.LaunchCommand))
-        {
-            return true;
-        }
-
         var httpClient = CreateHttpClient();
 
         using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
