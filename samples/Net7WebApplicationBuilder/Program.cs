@@ -25,8 +25,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 
-// The middleware and route endpoint get only added if the 'spa.proxy.json' file exists and the SpaYarp services were added.
-app.UseSpaYarp();
+// The middleware gets only added if the 'spa.proxy.json' file exists and the SpaYarp services were added.
+app.UseSpaYarpMiddleware();
 
 // If the SPA proxy is used, this will never be reached.
 app.MapFallbackToFile("index.html");

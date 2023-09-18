@@ -176,14 +176,37 @@ public class Startup
 
 This feature lets you combine multiple SPA dev servers into one, with each providing its site to a separate path.
 
-There is a sample demonstrating how to do this as well.
+There is simple forwarding approach, which expects Dev Servers to be started manually:
 
 ```cs
-app.UseSpaYarpMiddleware();
-app.MapSpaYarp("one", "https://localhost:44478");
-app.MapSpaYarp("two", "https://localhost:44479");
-
+app.MapSpaYarpForwarder("one", "https://localhost:44478");
+app.MapSpaYarpForwarder("two", "https://localhost:44479");
 ```
+
+And there is also more complex approach which allows Dev Servers to be started automatically:
+
+```cs
+app.MapSpaYarp<DevServerOptionsOne>(preserveMatchedPathSegment: true);
+app.MapSpaYarp<DevServerOptionsTwo>(preserveMatchedPathSegment: true);
+
+...
+
+class DevServerOptionsOne : AspNetCore.SpaYarp.SpaDevelopmentServerOptions
+{
+    public override string WorkingDirectory => Path.Combine(base.WorkingDirectory, "ClientAppOne");
+    public override string PublicPath => "one";
+    public override string ClientUrl => "https://localhost:44478";
+}
+
+class DevServerOptionsTwo : AspNetCore.SpaYarp.SpaDevelopmentServerOptions
+{
+    public override string WorkingDirectory => Path.Combine(base.WorkingDirectory, "ClientAppTwo");
+    public override string PublicPath => "two";
+    public override string ClientUrl => "https://localhost:44479";
+}
+```
+
+There are samples demonstrating how to do this as well.
 
 ## Migrate from SpaProxy
 

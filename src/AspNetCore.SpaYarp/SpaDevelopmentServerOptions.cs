@@ -1,17 +1,20 @@
 ﻿// based on https://github.com/dotnet/aspnetcore/blob/main/src/Middleware/Spa/SpaProxy/src/SpaDevelopmentServerOptions.cs
 namespace AspNetCore.SpaYarp;
 
+/// <summary>
+/// Options that are taken from 'spa.proxy.json' file as-is.
+/// </summary>
 public class SpaDevelopmentServerOptions
 {
-    public string ClientUrl { get; set; } = "";
+    public virtual string ClientUrl { get; set; } = "";
 
-    public string LaunchCommand { get; set; } = "";
+    public virtual string LaunchCommand { get; set; } = "";
 
-    public int MaxTimeoutInSeconds { get; set; }
+    public virtual int MaxTimeoutInSeconds { get; set; }
 
     public TimeSpan MaxTimeout => TimeSpan.FromSeconds(MaxTimeoutInSeconds);
 
-    public string WorkingDirectory { get; set; } = "";
+    public virtual string WorkingDirectory { get; set; } = "";
 
-    public string PublicPath { get; set; } = "";
+    public virtual string PublicPath { get; set; } = "";
 }

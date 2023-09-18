@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net6Startup", "samples\Net6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetMultipleSpasYarp", "samples\AspNetMultipleSpaYarp\AspNetMultipleSpasYarp.csproj", "{FFE0C2AC-6DEF-4CB4-B987-60B6C1C38912}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetMultipleSpasYarpAuto", "samples\AspNetMultipleSpaYarpAuto\AspNetMultipleSpasYarpAuto.csproj", "{285BD33E-E3FA-43CA-A20E-6D9D28422C05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{FFE0C2AC-6DEF-4CB4-B987-60B6C1C38912}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFE0C2AC-6DEF-4CB4-B987-60B6C1C38912}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFE0C2AC-6DEF-4CB4-B987-60B6C1C38912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{285BD33E-E3FA-43CA-A20E-6D9D28422C05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{285BD33E-E3FA-43CA-A20E-6D9D28422C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{285BD33E-E3FA-43CA-A20E-6D9D28422C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{285BD33E-E3FA-43CA-A20E-6D9D28422C05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +55,7 @@ Global
 		{E3826EDD-0370-4A40-A1F9-1B07ABEBDDFD} = {D05AF6E1-A5A4-429A-AB68-34669DDE7364}
 		{6E174FC6-F6E0-407A-9F75-1D6B84BB946D} = {D05AF6E1-A5A4-429A-AB68-34669DDE7364}
 		{FFE0C2AC-6DEF-4CB4-B987-60B6C1C38912} = {D05AF6E1-A5A4-429A-AB68-34669DDE7364}
+		{285BD33E-E3FA-43CA-A20E-6D9D28422C05} = {D05AF6E1-A5A4-429A-AB68-34669DDE7364}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64A1B0D6-615B-45D8-9F1C-593B55C3E840}
