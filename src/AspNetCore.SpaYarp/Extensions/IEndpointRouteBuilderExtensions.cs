@@ -20,6 +20,13 @@ public static class IEndpointRouteBuilderExtensions
         return endpoints;
     }
 
+    [Obsolete($"Please use {nameof(MapSpaYarpForwarder)} instead.")]
+    public static IEndpointRouteBuilder MapSpaYarp(this IEndpointRouteBuilder endpoints, string publicPath,
+        string clientUrl, string? policyName = null)
+    {
+        return MapSpaYarpForwarder(endpoints, publicPath, clientUrl, policyName);
+    }
+
     /// <summary>
     /// Adds direct forwarding of HTTP requests that match the pattern specified in <typeparamref name="TOptions"/>.PublicPath to a SPA dev server.
     /// It is expected that the SPA dev server will be started manually.
