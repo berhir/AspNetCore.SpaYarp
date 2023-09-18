@@ -32,14 +32,14 @@ public class SpaProxyMiddleware<TOptions>
         UseCookies = false
     });
 
-    private readonly IHttpForwarder _forwarder;
-
     private readonly SpaProxyLaunchManager<TOptions> _spaProxyLaunchManager;
     private readonly IOptions<TOptions> _options;
     private readonly IHostApplicationLifetime _hostLifetime;
+    private readonly IHttpForwarder _forwarder;
     private readonly ILogger<SpaProxyMiddleware<TOptions>> _logger;
 
     public SpaProxyMiddleware(
+        RequestDelegate _,
         SpaProxyLaunchManager<TOptions> spaProxyLaunchManager,
         IOptions<TOptions> options,
         IHostApplicationLifetime hostLifetime,
