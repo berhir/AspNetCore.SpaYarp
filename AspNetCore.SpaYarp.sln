@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net7WebApplicationBuilder", "samples\Net7WebApplicationBuilder\Net7WebApplicationBuilder.csproj", "{E3826EDD-0370-4A40-A1F9-1B07ABEBDDFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net8WebApplicationBuilder", "samples\Net8WebApplicationBuilder\Net8WebApplicationBuilder.csproj", "{E3826EDD-0370-4A40-A1F9-1B07ABEBDDFD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.SpaYarp", "src\AspNetCore.SpaYarp\AspNetCore.SpaYarp.csproj", "{03DE7E3B-0E21-49B5-8471-7E32E0A2D68C}"
 EndProject
