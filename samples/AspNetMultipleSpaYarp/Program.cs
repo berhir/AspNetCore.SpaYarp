@@ -1,3 +1,5 @@
+using AspNetCore.SpaYarp.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
