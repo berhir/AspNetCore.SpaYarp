@@ -1,3 +1,5 @@
+using AspNetCore.SpaYarp.Extensions;
+
 public class Startup
 {
     public Startup(IConfiguration configuration)

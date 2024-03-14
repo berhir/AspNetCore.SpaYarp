@@ -1,13 +1,12 @@
-﻿using AspNetCore.SpaYarp;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Net;
-using Microsoft.AspNetCore.Authorization;
 using Yarp.ReverseProxy.Forwarder;
 
-namespace Microsoft.AspNetCore.Builder;
+namespace AspNetCore.SpaYarp.Extensions;
 
 public static class IEndpointRouteBuilderExtensions
 {
@@ -16,11 +15,11 @@ public static class IEndpointRouteBuilderExtensions
     /// Adds a "catch-all" route endpoint to the <see cref="IEndpointRouteBuilder"/> that forwards all requests to the SPA dev server.
     /// </summary>
     /// <param name="endpoints">The <see cref="IEndpointRouteBuilder"/> to add the route endpoint to.</param>
-    /// <returns>The <see cref="IEndpointRouteBuilder"/>.</returns>
-    public static IEndpointRouteBuilder MapSpaYarp(this IEndpointRouteBuilder endpoints)
+    /// <returns>The <see cref="IEndpointConventionBuilder"/>.</returns>
+    public static IEndpointConventionBuilder? MapSpaYarp(this IEndpointRouteBuilder endpoints)
     {
         var spaOptions = endpoints.ServiceProvider.GetRequiredService<IOptions<SpaDevelopmentServerOptions>>().Value;
-        return MapSpaYarp(endpoints, spaOptions.PublicPath, spaOptions.ClientUrl);
+        return endpoints.MapSpaYarp(spaOptions.PublicPath, spaOptions.ClientUrl);
     }
 
     /// <summary>
@@ -31,22 +30,20 @@ public static class IEndpointRouteBuilderExtensions
     /// <param name="clientUrl">The Url of the dev server to proxy to</param>
     /// <param name="policyName">The auth policy name to add to the mapping</param>
     /// <returns>The <see cref="IEndpointRouteBuilder"/>.</returns>
-    public static IEndpointRouteBuilder MapSpaYarp(this IEndpointRouteBuilder endpoints, string publicPath,
-        string clientUrl, string? policyName = null)
+    public static IEndpointConventionBuilder? MapSpaYarp(this IEndpointRouteBuilder endpoints, string publicPath, string clientUrl)
     {
         var spaProxyLaunchManager = endpoints.ServiceProvider.GetService<SpaProxyLaunchManager>();
 
         if (spaProxyLaunchManager == null)
         {
-            return endpoints;
+            return null;
         }
 
         // configure the proxy
         var forwarder = endpoints.ServiceProvider.GetRequiredService<IHttpForwarder>();
 
         // Configure our own HttpMessageInvoker for outbound calls for proxy operations
-        var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
-        {
+        var httpClient = new HttpMessageInvoker(new SocketsHttpHandler() {
             UseProxy = false,
             AllowAutoRedirect = false,
             AutomaticDecompression = DecompressionMethods.None,
@@ -66,12 +63,7 @@ public static class IEndpointRouteBuilderExtensions
                 var exception = errorFeature?.Exception;
             }
         });
-        if (policyName is not null)
-        {
-            point.RequireAuthorization(policyName);
-        }
-
-        return endpoints;
+        return point;
     }
 
     /// <summary>

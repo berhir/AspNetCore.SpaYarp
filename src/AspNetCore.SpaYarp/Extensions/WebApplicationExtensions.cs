@@ -1,4 +1,6 @@
-﻿namespace Microsoft.AspNetCore.Builder;
+﻿using AspNetCore.SpaYarp.Extensions;
+
+namespace Microsoft.AspNetCore.Builder;
 
 public static class WebApplicationExtensions
 {

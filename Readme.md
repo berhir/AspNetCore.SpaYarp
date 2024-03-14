@@ -185,6 +185,28 @@ app.MapSpaYarp("two", "https://localhost:44479");
 
 ```
 
+### Configure route conventions
+
+MapSpaYarp returns the `IEndpointConventionBuilder`, which allows to add authorization policies and other route conventions.
+
+Here is an example which adds required authorization:
+
+```cs
+app.UseSpaYarpMiddleware();
+app.MapSpaYarp().RequireAuthorization();
+//app.MapSpaYarp().RequireAuthorization("MySpaYarpPolicy");
+
+```
+
+Here is an example which allows anonymous access (e.g. if authorization is required by default for all Endpoints):
+
+```cs
+app.UseSpaYarpMiddleware();
+app.MapSpaYarp().AllowAnonymousAccess();
+
+```
+
+
 ## Migrate from SpaProxy
 
 This guide assumes that you are using the default ASP.NET Core with Angular Template (but should work the same for other frameworks too).  
